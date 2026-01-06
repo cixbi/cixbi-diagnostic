@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { QUESTIONS, PROFILES } from './constants';
 import { Answers, Scores, SavedProgress, ProfileType } from './types';
 import { IntroScreen } from './components/IntroScreen';
