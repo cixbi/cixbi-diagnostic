@@ -42,13 +42,15 @@ export default function App() {
   };
 
   const handleNext = () => {
-    // Save progress to local storage
     const nextQ = currentQuestion + 1;
-    localStorage.setItem('diagnostic_progress', JSON.stringify({
-      currentQuestion: nextQ,
-      answers: answers,
-      timestamp: Date.now()
-    }));
+    localStorage.setItem(
+      'diagnostic_progress',
+      JSON.stringify({
+        currentQuestion: nextQ,
+        answers: answers,
+        timestamp: Date.now(),
+      })
+    );
 
     if (currentQuestion < QUESTIONS.length - 1) {
       setCurrentQuestion(nextQ);
@@ -75,10 +77,9 @@ export default function App() {
   const calculateScores = (): Scores => {
     let ciTotal = 0;
     let biTotal = 0;
-    
+
     Object.entries(answers).forEach(([qIndex, optIndex]) => {
       const question = QUESTIONS[Number(qIndex)];
-      // Safety check in case answers are stale for changed questions
       const index = optIndex as number;
       if (question && question.options[index]) {
         const option = question.options[index];
@@ -91,8 +92,9 @@ export default function App() {
   };
 
   const getProfileType = (ci: number, bi: number): ProfileType => {
-    const ciPercent = (ci / 36) * 100;
-    const biPercent = (bi / 36) * 100;
+    // Keep the original rules you used
+    const ciPercent = (ci / (QUESTIONS.length * 2)) * 100; // each question max 2? adjust if necessary
+    const biPercent = (bi / (QUESTIONS.length * 2)) * 100;
 
     if (ciPercent >= 60 && biPercent >= 60) return 'integrated';
     if (ciPercent < 40 && biPercent < 40) return 'underdeveloped';
@@ -107,13 +109,12 @@ export default function App() {
     generatePDF(scores, profile);
   };
 
-  // Render logic based on screen state
   if (screen === 'intro') {
     return (
-      <IntroScreen 
-        onStart={handleStart} 
-        onContinue={handleContinue} 
-        hasSavedProgress={!!savedResults} 
+      <IntroScreen
+        onStart={handleStart}
+        onContinue={handleContinue}
+        hasSavedProgress={!!savedResults}
       />
     );
   }
