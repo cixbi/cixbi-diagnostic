@@ -1,8 +1,7 @@
-
 export interface Option {
   text: string;
-  ci: number; // Creative Intuition score
-  bi: number; // Business Intelligence score
+  ci: number;
+  bi: number;
 }
 
 export interface Question {
@@ -12,7 +11,7 @@ export interface Question {
 }
 
 export interface Answers {
-  [questionIndex: number]: number; // Maps question index to option index
+  [questionIndex: number]: number;
 }
 
 export interface Scores {
